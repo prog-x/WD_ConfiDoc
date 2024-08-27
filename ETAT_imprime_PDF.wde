@@ -1,0 +1,79 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : ETAT_imprime_PDF
+ major_version : 29
+ minor_version : 0
+ type : 3
+ description : ""
+ subtype : 0
+report :
+ identifier : 0x56cc8527002eb165
+ internal_properties : CQAAAAkAAAB5UBobWKkZKy+jsLGM5djPmS74DDJHHKeFjUHsp13FcIyCpcRXjvnfv0Fq/rLSqYUfLZUVKFLPRth1zjruuj4lVlHy1wKwQskWIDvYqxmn8sFv2bskehuCdeeTViLhAvVkyHseQPYmcnahvL8w2IRkfDXATmqt+cRvAT1T+Qw0XqUOlT+z6nuV0eNvHyFq8LqLD1yRjQIfGstDU8I/vNbH3uAONwGBGO0GRA5276l3RReGcnlW/NqBqrQcs7Iagm0YeXkZUTFH/z7Jxjkr/QpXOv0JwAs8BlfMXYLtkYUb1OfljRh8bvhdgW9+caYi9xcdRceWNEMG8YamoC2vZnRkqVOgXNAuo4Pi8mkTy7+DmrtAQFXtCWrboREmdc3i1n8a+29WaKjnfQEMYeDEzpvGNmSLYzskGwK6FqkmpGZIB4VkLKsgfyL02ppOnnSjxT88udAoq6r3Dv4PcGsT5b2vsVMy7thOgwQtnKUlVOqmLeVrOHkvnR+qPiNT+74SOqXrLOPqG0eSNBz1OlmYm3XK0Da8Rnkcrzy1P/LQ3/PXeF4fDoStWqapfUO/2igUGip1qZDI0iuwFRJbOuVO4M+B0TpVjiPn9agKDKZakY1sgeLLMaDMGXC/eI/MAS0tfIptMLAFkULSa/8GKUyVSLeskl4bJ9wuVTPnzZzVMxK69zPG9j+95Cw8qSi54VOzYsPoySwHKp7I7nwdkCDao2/l+Hiq9D5QYr6jE3RduiiX0A44QgdnPCWuJb7VJIJ0jg==
+ languages :
+  - fr-FR
+ blocks :
+  -
+    name : CORPS
+    identifier : 0x56cc8527006ab175
+    internal_properties : CQAAAAkAAADfHiGQWb7Z8QgTfWlIgTn1821FKZps3cmCogxVSut4dWuIj7FEHlICypXbQfhr6PiIhuZRga6VY+OiU1s+2Pb/+3f2OplldGR86pocRKpd+fEfi/Lx8nEbZ4WSy4EFtvELYJlf0D2AiwTJODUhAZZyqeTtiqN4Ibj7EjG/n89vVN9hUumdoAVnLYUkIvbDmk0o5KQJYi6nOb4okxylXECN4P9CHCmhyhAGBRdGbw2+VOkQ2xmqqBilKo3xmpVqmLRC3rbWxbw6yZ7Blz1cWw==
+    controls :
+     -
+       name : IMG_page_PDF
+       identifier : 0x56cc855100af5660
+       internal_properties : CQAAAAkAAAC0O2tN4DChhs9ux+88A3oLAtWUc08N+spWOZyIKt5e5HH70jhDqOvxrmgzKFTwbFaHnEbPYBGWlzNsPNVR7n6epXn+jfWbe/wZCzXMYVdMnHTZeYnQKaiZdPYh3kUydQNOv/q+a8lJDmhSwQ/BEiVJk5zgu+F/waxaWRV9/YwVu1jVq1Bm/dF/zYCb4Mq2+NO2kyOKFYcSEYi1dWucLCY09OqCR7j7TU1QOS32SCKzy3wHgr1VuN4iDukObpOv0YHbJNbDGfoOsKYG8rKdUyK4wjBRFW8Kpja3DRIPKB7oxQjhthZvk5umar/L2C7ZVgEYKi7uPfHAO0XLNvI0GjmkQ1QB1xcQw6VKJ2GjtQE4jSpU8NeiMFST4wvnN8bear7vd7hoD61j6dIveZUgL+4l4lWP21lTpbQ=
+       properties :
+        x : 8.1e-002
+        y : 8.1e-002
+        width : 179.917
+        height : 250.561
+       code_elements :
+        type_code : 29
+        p_codes :
+         -
+           code : |1+
+            IMG_page_PDF = gclDocConfi:m_tabIMG_destination[n]
+           type : 327692
+    properties :
+     width : 180.
+     height : 250.642
+    code_elements :
+     type_code : 30
+     p_codes : []
+ controls : []
+ code_elements :
+  type_code : 13
+  p_codes :
+   -
+     code : |1-
+      PROCEDURE MonEtat(LOCAL gclDocConfi est un clsConfiDoc)
+      
+      n est un entier = 0
+     type : 327680
+   -
+     code : |1-
+      
+      
+      
+      n++
+      SI gclDocConfi:m_pdfSource.Page.Occurrence < n ALORS
+      	RENVOYER Faux
+      SINON
+      	
+      	RENVOYER Vrai	
+      FIN
+     type : 327695
+   -
+     code : |1+
+      
+      
+     type : 327696
+ code_parameters :
+  internal_properties : CQAAAAkAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : ETAT_SansNom1
+resources :
+ string_res :
+  identifier : 0x16cc85270086b165
+  internal_properties : CQAAAAkAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+custom_note :
+ internal_properties : CQAAAAkAAAC68/W0/adbG0nFCRhrE42B5HRnbDzVHaz86sSQyxlBk7I=

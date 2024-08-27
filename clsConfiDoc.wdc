@@ -1,0 +1,134 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : clsConfiDoc
+ major_version : 29
+ minor_version : 0
+ type : 4
+ description : ""
+ subtype : 0
+class :
+ identifier : 0x16cc391a00089e01
+ internal_properties : CQAAAAkAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
+ code_elements :
+  type_code : 10
+  p_codes :
+   -
+     code : |1+
+      clsConfiDoc est une Classe
+      	m_sPathEtFichierDoc_source		est une chaine		//Emplacement du fichier PDF source
+      	m_sPathEtFichierDoc_destination	est une chaine		//Emplacement du fichier PDF qui va être crée
+      	m_pdfSource						est un pdfDocument
+      	m_nPPI							est un entier		//Conversion enPDPI pour un rendu "mauvais" dans le but de degrader la qualité du PDF de base
+      	m_oFiligrane					est un Filigrane	//Filigrane qui sera apposé sur le document
+      	m_moFacteurRetrecissant			est un monétaire	//On multiplie par ce facteur qui doit être entre 0 et 1.
+      	m_sErreur						est une chaine
+      	m_tabIMG_destination			est un tableau de image
+      	m_nNiveauDeFlou est un entier 
+      PROTEGE
+      fin
+     type : 131072
+  procedures :
+   -
+     name : Constructeur
+     procedure_id : 1642750747915951617
+     type_code : 27
+     code : |1-
+      procédure Constructeur()
+      
+      :m_nPPI = 72
+      :m_moFacteurRetrecissant = 0.10
+      :m_oFiligrane.Taille = iAutomatique
+      :m_oFiligrane.Police.Nom = "Arial"
+      :m_oFiligrane.Position = iCentreH + iBas
+      m_nNiveauDeFlou = 0
+     type : 589824
+   -
+     name : Destructeur
+     procedure_id : 1642750747916017153
+     type_code : 28
+     code : |1+
+      procédure Destructeur()
+      
+     type : 655360
+   -
+     name : met_converti_doc
+     procedure_id : 1642823139597275366
+     type_code : 12
+     code : |1-
+      Procédure met_converti_doc() : booléen
+      :m_sErreur = ""
+      
+      si pas fFichierExiste(:m_sPathEtFichierDoc_source) ALORS
+      	:m_sErreur = "Le fichier "+:m_sPathEtFichierDoc_source+" n'existe pas."
+      	Renvoyer faux
+      FIN
+      si pas fRépertoireExiste(fExtraitChemin(:m_sPathEtFichierDoc_destination,fDisque+fRépertoire)) ALORS
+      	:m_sErreur = "Le répertoire destination "+fExtraitChemin(:m_sPathEtFichierDoc_destination,fDisque+fRépertoire)+" n'existe pas."
+      	Renvoyer faux
+      FIN
+      
+      :m_pdfSource = PDFOuvre(:m_sPathEtFichierDoc_source)
+      
+      tabIMG_source est un tableau de image
+      
+      m_tabIMG_destination.SupprimeTout()
+      pour i=1 _A_  :m_pdfSource.Page..Occurrence
+      	oIMG est une image = PDFExtraitPage(:m_pdfSource,i)
+      	//	oIMG.Image = oPage
+      	tabIMG_source.Ajoute(oIMG) 
+      FIN
+      
+      pour i=1 _A_ tabIMG_source..Occurrence
+      	oIMG	est une image	= tabIMG_source[i]
+      	oIMG2	est une image = tabIMG_source[i]
+      	oIMG2.Redimensionne(oIMG.Largeur*:m_moFacteurRetrecissant, oIMG.Hauteur*:m_moFacteurRetrecissant)
+      	//	oIMG.Largeur = oIMG.Largeur * :m_moFacteurRetrecissant
+      	//	oIMG.hauteur *= :m_moFacteurRetrecissant
+      	//	oIMG.CouleurRemplissage.Teinte = 100
+      	si m_nNiveauDeFlou > 0 alors
+      		dFlou(oIMG,:m_nNiveauDeFlou)
+      	fin
+      	
+      	dCopie(oIMG,oIMG2)
+      	m_tabIMG_destination.Ajoute(oIMG2)
+      FIN
+      
+      //MonDocPDFOut est un pdfDocument //= :m_sPathEtFichierDoc_destination
+      //// Ajout de pages
+      //pour tout oPage de tabIMG_destination
+      //	oPDFPage est un pdfPage
+      //	oPDFPage.Largeur = oPage.Largeur
+      //	oPDFPage.hauteur = oPage.Hauteur
+      //	oPDFPage.Orientation = Orient0
+      //	Ajoute(MonDocPDFOut.Page,oPDFPage)
+      //	PDFAjouteImage(MonDocPDFOut.Page[MonDocPDFOut.Page..Occurrence],oPage.image,0,0,oPage.Largeur,oPage.hauteur,drHomothétiqueEtendu)
+      //FIN
+      
+      //On imprime un etat avec toutes les pages
+      //sFichierPDFTemp est une chaine = fRepTemp() + [fsep] + DonneGUID(guidBrut)+".pdf"
+      iDestination(iPDFGénérique,:m_sPathEtFichierDoc_destination)
+      iImprimeEtat(ETAT_imprime_PDF,objet)
+      
+      oPDFDest est un pdfDocument = :m_sPathEtFichierDoc_destination
+      //On ajouter le filigrane
+      PDFAjouteFiligrane(oPDFDest,m_oFiligrane)
+      
+      si pas PDFSauve(oPDFDest,:m_sPathEtFichierDoc_destination) alors
+      	:m_sErreur = ErreurInfo(errMessage)
+      	Renvoyer faux
+      FIN
+      
+      Renvoyer vrai
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : CQAAAAkAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : Classe1
+resources :
+ string_res :
+  identifier : 0x16cc38ff000536cb
+  internal_properties : CQAAAAkAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+custom_note :
+ internal_properties : CQAAAAkAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ
