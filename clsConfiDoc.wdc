@@ -23,6 +23,7 @@ class :
       	m_oFiligrane					est un Filigrane	//Filigrane qui sera apposé sur le document
       	m_moFacteurRetrecissant			est un monétaire	//On multiplie par ce facteur qui doit être entre 0 et 1.
       	m_sErreur						est une chaine
+      	m_sMotDePassePDF						est une chaine
       	m_tabIMG_destination			est un tableau de image
       	m_nNiveauDeFlou est un entier 
       PROTEGE
@@ -107,17 +108,30 @@ class :
       
       //On imprime un etat avec toutes les pages
       //sFichierPDFTemp est une chaine = fRepTemp() + [fsep] + DonneGUID(guidBrut)+".pdf"
-      iDestination(iPDFGénérique,:m_sPathEtFichierDoc_destination)
+      sPathPDFTemp est une chaîne = fRepTemp()+ [fSep] + fExtraitChemin(:m_sPathEtFichierDoc_destination,fExtension+fFichier)
+      iDestination(iPDFGénérique,sPathPDFTemp)
       iImprimeEtat(ETAT_imprime_PDF,objet)
       
-      oPDFDest est un pdfDocument = :m_sPathEtFichierDoc_destination
+      oPDFDest est un pdfDocument = sPathPDFTemp
       //On ajouter le filigrane
       PDFAjouteFiligrane(oPDFDest,m_oFiligrane)
       
-      si pas PDFSauve(oPDFDest,:m_sPathEtFichierDoc_destination) alors
+      SI PAS PDFSauve(oPDFDest,:m_sPathEtFichierDoc_destination) ALORS
       	:m_sErreur = ErreurInfo(errMessage)
-      	Renvoyer faux
+      	RENVOYER Faux
       FIN
+      SI :m_sMotDePassePDF <> "" ALORS
+      	si pas fCopieFichier(:m_sPathEtFichierDoc_destination, sPathPDFTemp) ALORS
+      		:m_sErreur = Erreurinfo(errMessage)
+      		Renvoyer faux
+      	FIN
+      	si pas PDFMotDePasse(sPathPDFTemp,:m_sPathEtFichierDoc_destination,iProtectionCommentaire+iProtectionImpression+iProtectionModification+iProtectionSélection,:m_sMotDePassePDF) ALORS
+      		:m_sErreur = Erreurinfo(errMessage)
+      		Renvoyer faux
+      	FIN
+      FIN
+      
+      fSupprime(sPathPDFTemp)
       
       Renvoyer vrai
      type : 458752
