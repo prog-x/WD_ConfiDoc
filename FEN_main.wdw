@@ -24,7 +24,7 @@ window :
     properties :
      x : 6
      y : 193
-     width : 80
+     width : 107
      height : 24
     type : 4
     code_elements :
